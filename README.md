@@ -169,6 +169,177 @@ Use this section to document the experiments you ran. For example:
 
 ---
 
+## Adversarial Profile Results
+
+The following profiles were defined as edge-case prompts meant to stress-test the scoring logic.
+
+### 1. Genre-only gambit
+
+```text
+Profile: Genre-only gambit
+Description: Uses only a favorite genre to test whether the scorer over-focuses on the categorical match.
+Preferences: {'genre': 'pop'}
+
+Top 5 recommendations:
+1. Sunrise City
+   Score: 3.16
+   Reasons:
+     - genre match (+2.0)
+     - acousticness close (+0.48)
+     - valence close (+0.33)
+     - danceability close (+0.35)
+
+2. Gym Hero
+   Score: 3.06
+   Reasons:
+     - genre match (+2.0)
+     - acousticness close (+0.39)
+     - valence close (+0.36)
+     - danceability close (+0.31)
+
+3. Firelight Parade
+   Score: 1.47
+   Reasons:
+     - genre mismatch (country)
+     - acousticness close (+0.69)
+     - valence close (+0.37)
+     - danceability close (+0.41)
+
+4. Quiet Harbor
+   Score: 1.46
+   Reasons:
+     - genre mismatch (reggae)
+     - acousticness close (+0.64)
+     - valence close (+0.41)
+     - danceability close (+0.41)
+
+5. Midnight Coding
+   Score: 1.46
+   Reasons:
+     - genre mismatch (lofi)
+     - acousticness close (+0.55)
+     - valence close (+0.47)
+     - danceability close (+0.44)
+```
+
+### 2. Acoustic bait
+
+```text
+Profile: Acoustic bait
+Description: Claims a strong acoustic preference despite an otherwise mismatched mood and genre.
+Preferences: {'genre': 'rock', 'mood': 'intense', 'energy': 0.95, 'likes_acoustic': True}
+
+Top 5 recommendations:
+1. Storm Runner
+   Score: 5.08
+   Reasons:
+     - genre match (+2.0)
+     - mood match (+1.0)
+     - energy close (+0.96)
+     - acousticness close (+0.21)
+     - valence close (+0.49)
+     - danceability close (+0.42)
+
+2. Gym Hero
+   Score: 2.83
+   Reasons:
+     - genre mismatch (pop)
+     - mood match (+1.0)
+     - energy close (+0.98)
+     - acousticness close (+0.17)
+     - valence close (+0.36)
+     - danceability close (+0.31)
+
+3. Golden Hour Echo
+   Score: 2.05
+   Reasons:
+     - genre mismatch (folk)
+     - mood mismatch (nostalgic)
+     - energy close (+0.60)
+     - acousticness close (+0.62)
+     - valence close (+0.39)
+     - danceability close (+0.45)
+
+4. Focus Flow
+   Score: 2.04
+   Reasons:
+     - genre mismatch (lofi)
+     - mood mismatch (focused)
+     - energy close (+0.45)
+     - acousticness close (+0.69)
+     - valence close (+0.46)
+     - danceability close (+0.45)
+
+5. Midnight Coding
+   Score: 2.02
+   Reasons:
+     - genre mismatch (lofi)
+     - mood mismatch (chill)
+     - energy close (+0.47)
+     - acousticness close (+0.64)
+     - valence close (+0.47)
+     - danceability close (+0.44)
+```
+
+### 3. Energy extremist
+
+```text
+Profile: Energy extremist
+Description: Targets a very high energy value and a contradictory mood to probe whether energy dominates the ranking.
+Preferences: {'genre': 'lofi', 'mood': 'happy', 'energy': 0.95, 'likes_acoustic': False}
+
+Top 5 recommendations:
+1. Midnight Coding
+   Score: 3.72
+   Reasons:
+     - genre match (+2.0)
+     - mood mismatch (chill)
+     - energy close (+0.47)
+     - acousticness close (+0.34)
+     - valence close (+0.47)
+     - danceability close (+0.44)
+
+2. Focus Flow
+   Score: 3.65
+   Reasons:
+     - genre match (+2.0)
+     - mood mismatch (focused)
+     - energy close (+0.45)
+     - acousticness close (+0.29)
+     - valence close (+0.46)
+     - danceability close (+0.45)
+
+3. Library Rain
+   Score: 3.55
+   Reasons:
+     - genre match (+2.0)
+     - mood mismatch (chill)
+     - energy close (+0.40)
+     - acousticness close (+0.24)
+     - valence close (+0.45)
+     - danceability close (+0.46)
+
+4. Sunrise City
+   Score: 3.24
+   Reasons:
+     - genre mismatch (pop)
+     - mood match (+1.0)
+     - energy close (+0.87)
+     - acousticness close (+0.69)
+     - valence close (+0.33)
+     - danceability close (+0.35)
+
+5. Rooftop Lights
+   Score: 3.09
+   Reasons:
+     - genre mismatch (indie pop)
+     - mood match (+1.0)
+     - energy close (+0.81)
+     - acousticness close (+0.59)
+     - valence close (+0.34)
+     - danceability close (+0.34)
+```
+
 ## Limitations and Risks
 
 Summarize some limitations of your recommender.
@@ -189,10 +360,9 @@ Read and complete `model_card.md`:
 
 [**Model Card**](model_card.md)
 
-Write 1 to 2 paragraphs here about what you learned:
+My biggest learning moment was realizing how much a simple scoring rule can make a system feel personal. A few hand-written rules about genre, mood, and energy were enough to produce recommendations that looked believable, even though the model was not really understanding taste.
 
-- about how recommenders turn data into predictions
-- about where bias or unfairness could show up in systems like this
+Using AI tools helped me move faster by generating starter code, suggesting profile ideas, and helping me explain the results. I still needed to double-check the outputs, especially when the model produced explanations or ranking ideas that looked plausible but did not always match the actual scoring logic. If I extended this project, I would try adding more features, more diverse songs, and a way to make the recommendations less narrow so they feel less repetitive.
 
 
 
